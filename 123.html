@@ -1,0 +1,1344 @@
+
+{
+
+   class Program
+
+   {
+
+       static void Main(string[] args)
+
+       { try
+
+           {
+
+               integer i,j,kk,key,n;
+
+double real gg,ll,lhk,tt,r; 
+
+double[] h = new double[n];
+
+double[] lam = new double[n];
+
+double[] g = new double[n];
+
+double[] glh = new double[n];
+
+double[] hs = new double[n]; 
+
+double[] ls = new double[n];
+
+double[] gs = new double[n];
+
+double[] left = new double[n];
+
+double[] right = new double[n];
+
+               double[] items = new double[n];
+
+int[] y = new int[n];
+
+int[] k = new int[n];
+
+               double sum = 0;        
+
+               double sum_2 = 0;
+
+gs[0] = 1.33;
+
+           chanlin(n, glh, y)
+
+           for (int i = 0; i < n; i++)
+
+           {
+
+               j = y[i];
+
+               hs[i] = h[j];
+
+               ls[i] = lam[j];
+
+               gs[i] = g[j];
+
+           }
+
+           ll = 0;
+
+           for (int i = 0; i < n; i++)
+
+           {
+
+               ll = ll + Math.Sqrt(2 * (gs[0] + gs[i]) * ls[i] * hs[i]);
+
+           }
+
+           gg = gs[0];
+
+           lhk = 0;
+
+           for (int i = 0; i < n; i++)
+
+           {
+
+               gg = gg + gs[i];
+
+               lhk = lhk + ls[i] * hs[i];
+
+           }
+
+           gg = 2 * gg;
+
+
+
+           tt = Math.Sqrt(gg / lhk);
+
+           ll = Math.Sqrt(gg * lhk);
+
+           tt = Math.Sqrt(2 * (gs[0] + gs[l]) / (ls[1] * hs[1]));
+
+           k[1] = 1;
+
+           kk = 1;
+
+           r = (2 * gs[1] / (kk * (kk + 1) * tt * 2));
+
+           for (int i = 2;i < n; i++)
+
+           {
+
+               do
+
+               {
+
+                   kk = kk + 1;
+
+                   r = 2 * gs[i] / (kk * (kk + 1) * tt * 2);
+
+               }
+
+               while (ls[i] * hs[i] <= r);
+
+ 
+
+               k[i] = kk;
+
+           }
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   items[i] = Convert.ToDouble(dataGridView1[i, 0].Value);
+
+                   sum += items[i];
+
+                   sum_2 += items[i] * items[i] * (1 / Convert.ToDouble(n));
+
+               }
+
+               Array.Sort(items);
+
+               double PriceRor1 = Convert.ToDouble(this.textBox2.Text);
+
+               double DeliveryDays = Convert.ToDouble(this.textBox3.Text);
+
+               double DeliveryPrice = Convert.ToDouble(this.textBox4.Text);
+
+               double WorkDays = Convert.ToDouble(this.textBox5.Text);
+
+               double Izdergki = Convert.ToDouble(this.textBox6.Text);
+
+               int count = 1;
+
+               for (int i = 0; i < n - 1; i++)
+
+               {
+
+                   if (items[i + 1] != items[i])
+
+                   {
+
+                       count++;
+
+                   }
+
+               }
+
+               double[,] countitems = new double[2, count];
+
+               for (int i = 0; i < count - 1; i++)
+
+               {
+
+                   countitems[1, i] = 0;
+
+               }
+
+               int count1 = 0;
+
+               int k = 0;
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   if (i == 0)
+
+                   {
+
+                       for (int j = 0; j < n; j++)
+
+                       {
+
+                           if (items[i] == items[j])
+
+                               count1++;
+
+                       }
+
+                       countitems[0, k] = items[i];
+
+                       countitems[1, k] = count1;
+
+                       k += 1;
+
+                       count1 = 0;
+
+                   }
+
+                   else if (items[i] != items[i - 1])
+
+                   {
+
+                       for (int j = 0; j < n; j++)
+
+                       {
+
+                           if (items[i] == items[j])
+
+                               count1++;
+
+                       }
+
+                       countitems[0, k] = items[i];
+
+                       countitems[1, k] = count1;
+
+                       k += 1;
+
+                       count1 = 0;
+
+                   }
+
+               }
+
+               double Mx = Math.Round(sum / Convert.ToDouble(n), 2);
+
+               double Dx = Math.Round(sum_2 - Mx * Mx, 2);
+
+               label12.Text = Convert.ToString(Mx);
+
+               label10.Text = Convert.ToString(Dx); 
+
+               double OrderSize = Math.Round(Math.Sqrt(2 * DeliveryPrice * Mx * WorkDays / (PriceRor1 * Izdergki / 100.00)), 2);
+
+               label19.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(OrderSize)));
+
+               double a = double.Parse(comboBox1.Text);
+
+               double Z = 1.282;
+
+               if (a == 1)
+
+               {
+
+                   Z = 2.326;
+
+               }
+
+               else
+
+               {
+
+                   if(a == 5)
+
+                   {
+
+                       Z = 1.645;
+
+                   }
+
+                   else
+
+                   {
+
+                       if (a == 10)
+
+                       {
+
+                           Z = 1.282;
+
+                       }
+
+                   }
+
+ 
+
+               }
+
+               double Deviation = Math.Sqrt(Mx * Dx * Dx);
+
+               double ReorderLevel = Math.Round(Mx * DeliveryDays + Z * Deviation, 2);
+
+               label20.Text = Convert.ToString(ReorderLevel);
+
+               double Rezerv = ReorderLevel - Mx * DeliveryDays;
+
+               label23.Text = Convert.ToString(Math.Round(Rezerv, 2));
+
+               label21.Text = Convert.ToString(Math.Round(Izdergki * PriceRor1 * Rezerv / 100.00, 2));
+
+               double TC = Math.Round(DeliveryPrice * Mx * WorkDays / OrderSize + Izdergki * PriceRor1 / 100 * (OrderSize / 2 + Rezerv), 2);
+
+               label24.Text = Convert.ToString(TC);
+
+               chart1.Series["Qty"].Points.Clear();
+
+               for (int k1 = 0; k1 < count; k1++)
+
+               {
+
+                   this.chart1.Series["Qty"].Points.AddXY(countitems[0, k1], countitems[1, k1]);
+
+               }
+
+           }
+
+           catch {
+
+               MessageBox.Show("Invalid data. Please check and try again.");
+
+           }
+
+try
+
+           {
+
+               int n = Convert.ToInt32(this.textBox1.Text);
+
+               double[] items = new double[n];
+
+               double sum = 0;
+
+               double sum_2 = 0;
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   items[i] = Convert.ToDouble(dataGridView1[i, 0].Value);
+
+                   sum += items[i];
+
+                   sum_2 += items[i] * items[i] * (1 / Convert.ToDouble(n));
+
+               }
+
+               Array.Sort(items); 
+
+               double NumberOfWeeks = Convert.ToDouble(this.textBox2.Text);
+
+               double DeliveryWeeks = Convert.ToDouble(this.textBox3.Text);
+
+               double WorkWeeks = Convert.ToDouble(this.textBox5.Text);
+
+               int count = 1;
+
+               for (int i = 0; i < n - 1; i++)
+
+               {
+
+                   if (items[i + 1] != items[i])
+
+                   {
+
+                       count++;
+
+                   }
+
+               }
+
+               double[,] countitems = new double[2, count];
+
+               for (int i = 0; i < count - 1; i++)
+
+               {
+
+                   countitems[1, i] = 0;
+
+               }
+
+               int count1 = 0;
+
+               int k = 0;
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   if (i == 0)
+
+                   {
+
+                       for 
+
+ (int j = 0; j < n; j++)
+
+                       {
+
+                           if (items[i] == items[j])
+
+                               count1++;
+
+                       }
+
+                       countitems[0, k] = items[i];
+
+                       countitems[1, k] = count1;
+
+                       k += 1;
+
+                       count1 = 0;
+
+                   }
+
+                   else if (items[i] != items[i - 1])
+
+                   {
+
+                       for (int j = 0; j < n; j++)
+
+                       {
+
+                           if (items[i] == items[j])
+
+                               count1++;
+
+                       }
+
+                       countitems[0, k] = items[i];
+
+                       countitems[1, k] = count1;
+
+                       k += 1;
+
+                       count1 = 0;
+
+                   }
+
+               }
+
+               double Mx = Math.Round(sum / Convert.ToDouble(n), 2);
+
+               double Dx = Math.Round(sum_2 - Mx * Mx, 2);
+
+               label12.Text = Convert.ToString(Mx);
+
+               label10.Text = Convert.ToString(Dx);
+
+               double NumderCycles = WorkWeeks / NumberOfWeeks;
+
+               double P_shortage = 1.00 / NumderCycles;
+
+               double Z_perc = 1.00 - P_shortage;
+
+               double spros = (NumberOfWeeks + DeliveryWeeks) * Mx;
+
+               double otklonenie = Math.Sqrt((NumberOfWeeks + DeliveryWeeks) * Dx);
+
+               double Z = 3.719;
+
+               if (Z_perc <= 0.9)
+
+               {
+
+                   Z = 1.282;
+
+               }
+
+               if (Z_perc > 0.9 && Z_perc <= 0.95)
+
+               {
+
+                   Z = 1.645;
+
+               }
+
+               if (Z_perc > 0.95 && Z_perc <= 0.975)
+
+               {
+
+                   Z = 1.960;
+
+               }
+
+               if (Z_perc > 0.975 && Z_perc <= 0.98)
+
+               {
+
+                   Z = 2.054;
+
+               }
+
+               if (Z_perc > 0.98 && Z_perc <= 0.99)
+
+               {
+
+                   Z = 2.326;
+
+               } 
+
+               double OrderLevel = Math.Round(spros + Z * otklonenie, 2);
+
+               label19.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(OrderLevel)));
+
+               label20.Text = Convert.ToString(Math.Round(P_shortage, 2));
+
+               chart1.Series["Qty"].Points.Clear();
+
+               for (int k1 = 0; k1 < count; k1++)
+
+               {
+
+                   this.chart1.Series["Qty"].Points.AddXY(countitems[0, k1], countitems[1, k1]);
+
+               }
+
+           }
+
+
+
+   catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+try
+
+           {
+
+               int date = Convert.ToInt32(DateTime.Now.ToString("dd"));
+
+               double alpha = Convert.ToDouble(this.textBox1.Text);
+
+               double betta = Convert.ToDouble(this.textBox8.Text);
+
+ 
+
+               double lamda = Math.Exp(alpha + betta * date);
+
+               int n = Convert.ToInt32(this.textBox2.Text); 
+
+               int j = 0;
+
+               int k = 0;
+
+               double sum = 0;
+
+               double[] items = new double[n];
+
+ 
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   items[i] = alglib.poissondistribution(i, lamda) - sum;
+
+                   if (items[i] <= 0.001 && i > lamda)
+
+                   {
+
+                       j = i;
+
+                       break;
+
+                   }
+
+                   if (items[i] <= 0.001 && i < lamda)
+
+                   {
+
+                       k = i;
+
+                   }
+
+                   sum += items[i];
+
+ 
+
+               }
+
+ 
+
+               double PriceRor1 = Convert.ToDouble(this.textBox7.Text);
+
+               double DeliveryDays = Convert.ToDouble(this.textBox3.Text);
+
+               double DeliveryPrice = Convert.ToDouble(this.textBox4.Text);
+
+               double WorkDays = Convert.ToDouble(this.textBox5.Text);
+
+               double Izdergki = Convert.ToDouble(this.textBox6.Text); 
+
+               double Mx = lamda;
+
+               double Dx = lamda;
+
+               label12.Text = Convert.ToString(Math.Round(Mx, 2));
+
+               label10.Text = Convert.ToString(Math.Round(Dx, 2));
+
+ 
+
+               double OrderSize = Math.Round(Math.Sqrt(2 * DeliveryPrice * Mx * WorkDays / (PriceRor1 * Izdergki / 100.00)), 2);
+
+               label19.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(OrderSize)));
+
+               double a = double.Parse(comboBox1.Text);
+
+               double Z = 1.282;
+
+               if (a == 1)
+
+               {
+
+                   Z = 2.326;
+
+               }
+
+               else
+
+               {
+
+                   if (a == 5)
+
+                   {
+
+                       Z = 1.645;
+
+                   }
+
+                   else
+
+                   {
+
+                       if (a == 10)
+
+                       {
+
+                           Z = 1.282;
+
+                       }
+
+                   }
+
+ 
+
+               }
+
+               double Deviation = Math.Sqrt(Mx * Dx * Dx);
+
+
+
+               double ReorderLevel = Math.Round(Mx * DeliveryDays + Z * Deviation, 2);
+
+               label20.Text = Convert.ToString(ReorderLevel);
+
+               double Rezerv = ReorderLevel - Mx * DeliveryDays;
+
+               label23.Text = Convert.ToString(Math.Round(Rezerv, 2));
+
+               label21.Text = Convert.ToString(Math.Round(Izdergki * PriceRor1 * Rezerv / 100.00, 2));
+
+               double TC = Math.Round(DeliveryPrice * Mx * WorkDays / OrderSize + Izdergki * PriceRor1 / 100 * (OrderSize / 2 + Rezerv), 2);
+
+               label24.Text = Convert.ToString(TC);
+
+ 
+
+ 
+
+               chart1.Series["Qty"].Points.Clear();
+
+               for (int i = k; i < j; i++)
+
+               {
+
+                   this.chart1.Series["Qty"].Points.AddXY(i, items[i]);
+
+               }
+
+               double [] lamda1 = new double[32];
+
+               for (int i = 0; i < 32; i++)
+
+               {
+
+                   lamda1[i] = Math.Exp(alpha + betta * (i));
+
+               }
+
+               chart2.Series["Time"].Points.Clear();
+
+               for (int i = 0; i < 32; i++)
+
+               {
+
+                   this.chart2.Series["Time"].Points.AddXY(i, lamda1[i]);
+
+               }
+
+           }
+
+   catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+try
+
+           {
+
+               int date = Convert.ToInt32(DateTime.Now.ToString("dd"));
+
+               double alpha = Convert.ToDouble(this.textBox6.Text);
+
+               double betta = Convert.ToDouble(this.textBox1.Text); 
+
+               double lamda = Math.Exp(alpha + betta * date);
+
+               int n = Convert.ToInt32(this.textBox4.Text);
+
+               int j = 0;
+
+               int k = 0;
+
+               double sum = 0;
+
+               double[] items = new double[n];
+
+ 
+
+               for (int i = 0; i < n; i++)
+
+               {
+
+                   items[i] = alglib.poissondistribution(i, lamda) - sum;
+
+                   if (items[i] <= 0.001 && i > lamda)
+
+                   {
+
+                       j = i;
+
+                       break;
+
+                   }
+
+                   if (items[i] <= 0.001 && i < lamda)
+
+                   {
+
+                       k = i;
+
+                   }
+
+                   sum += items[i]; 
+
+               }
+
+               double NumberOfWeeks = Convert.ToDouble(this.textBox2.Text);
+
+               double DeliveryWeeks = Convert.ToDouble(this.textBox3.Text);
+
+               double WorkWeeks = Convert.ToDouble(this.textBox5.Text);
+
+               double Mx = lamda;
+
+               double Dx = lamda;
+
+               label12.Text = Convert.ToString(Math.Round(Mx, 2));
+
+               label10.Text = Convert.ToString(Math.Round(Dx, 2));
+
+               double NumderCycles = WorkWeeks / NumberOfWeeks;
+
+               double P_shortage = 1.00 / NumderCycles;
+
+               double Z_perc = 1.00 - P_shortage;
+
+               double spros = (NumberOfWeeks + DeliveryWeeks) * Mx;
+
+
+
+               double otklonenie = Math.Sqrt((NumberOfWeeks + DeliveryWeeks) * Dx);
+
+               double Z = 3.719;
+
+               if (Z_perc <= 0.9)
+
+               {
+
+                   Z = 1.282;
+
+               }
+
+               if (Z_perc > 0.9 && Z_perc <= 0.95)
+
+               {
+
+                   Z = 1.645;
+
+               }
+
+               if (Z_perc > 0.95 && Z_perc <= 0.975)
+
+               {
+
+                   Z = 1.960;
+
+               }
+
+               if (Z_perc > 0.975 && Z_perc <= 0.98)
+
+               {
+
+                   Z = 2.054;
+
+               }
+
+               if (Z_perc > 0.98 && Z_perc <= 0.99)
+
+               {
+
+                   Z = 2.326;
+
+               }
+
+ 
+
+               double OrderLevel = Math.Round(spros + Z * otklonenie, 2);
+
+               label19.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(OrderLevel)));
+
+               label20.Text = Convert.ToString(Math.Round(P_shortage, 2));
+
+ 
+
+               chart1.Series["Qty"].Points.Clear();
+
+               for (int i = k; i < j; i++)
+
+               {  
+
+                   this.chart1.Series["Qty"].Points.AddXY(i, items[i]);
+
+               }
+
+               double[] lamda1 = new double[32];
+
+               for (int i = 0; i < 32; i++)
+
+               {
+
+                   lamda1[i] = Math.Exp(alpha + betta * (i));
+
+               }
+
+               chart2.Series["Time"].Points.Clear();
+
+               for (int i = 0; i < 32; i++)
+
+               {
+
+                   this.chart2.Series["Time"].Points.AddXY(i, lamda1[i]);
+
+               }
+
+           }
+
+   catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+try
+
+           {
+
+               int n = 2;
+
+               int i;
+
+               double dostavka = Convert.ToDouble(this.textBox1.Text);
+
+               int days = Convert.ToInt32(this.textBox2.Text);
+
+               int weeks = Convert.ToInt32(this.textBox3.Text);
+
+               double izdergki_delivery;
+
+               double[] consumption = new double[n];
+
+               double[] izdergki = new double[n];
+
+               double[] price = new double[n];
+
+               double[] qty = new double[n];
+
+               double[] price_save = new double[n];
+
+               double[] price_delivery = new double[n];
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   consumption[i] = Convert.ToDouble(dataGridView1[i, 0].Value);
+
+                   izdergki[i] = Convert.ToDouble(dataGridView2[i, 0].Value);
+
+                   price[i] = Convert.ToDouble(dataGridView3[i, 0].Value);
+
+               }
+
+               double sum = 0;
+
+
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   sum += consumption[i] * izdergki[i];
+
+               }
+
+               double time_weeks = Math.Sqrt(2 * dostavka / sum);
+
+               label10.Text = Convert.ToString(Math.Round(time_weeks, 1));
+
+               label14.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(time_weeks * days)));
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   qty[i] = consumption[i] * time_weeks;
+
+               }
+
+               label9.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(qty[0])));
+
+               label16.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(qty[1])));
+
+ 
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   price_save[i] = qty[i] * izdergki[i] / 2 * weeks;
+
+               }
+
+               label24.Text = Convert.ToString(Math.Round(price_save[0], 2));
+
+               label22.Text = Convert.ToString(Math.Round(price_save[1], 2));
+
+               izdergki_delivery = dostavka / time_weeks * weeks;
+
+               label12.Text = Convert.ToString(Math.Round(izdergki_delivery, 2));
+
+ 
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   price_delivery[i] = price_save[i] / izdergki[i] * price[i] * weeks;
+
+               }
+
+               label32.Text = Convert.ToString(Math.Round(price_delivery[0], 2));
+
+               label30.Text = Convert.ToString(Math.Round(price_delivery[1], 2));
+
+               int n1 = 10000000;
+
+               double[] sum1 = new double[n];
+
+               double[,] items = new double[n1, 3];
+
+               int k = 0;
+
+               int j = 0;
+
+               for (i = 0; i < n1; i++)
+
+               {
+
+                   items[i, 0] = alglib.poissondistribution(i, consumption[0]) - sum1[0];
+
+                   items[i, 1] = alglib.poissondistribution(i, consumption[1]) - sum1[1];
+
+                   if (items[i, 0] <= 0.0001 && items[i, 1] <= 0.0001 && i > consumption[0] && i > consumption[1])
+
+                   {
+
+                       j = i;
+
+                       break;
+
+                   }
+
+                   if (items[i, 0] <= 0.0001 && items[i, 1] <= 0.0001 && i < consumption[0] && i < consumption[1])
+
+                   {
+
+                       k = i;
+
+                   }
+
+                   for (int i1 = 0; i1 < n; i1++)
+
+                   {
+
+                       sum1[i1] += items[i, i1];
+
+                   }
+
+               }
+
+               chart2.Series["Item 1"].Points.Clear();
+
+               chart2.Series["Item 2"].Points.Clear();
+
+               for (i = k; i < j; i++)
+
+               {
+
+                   this.chart2.Series["Item 1"].Points.AddXY(i, items[i, 0]);
+
+                   this.chart2.Series["Item 2"].Points.AddXY(i, items[i, 1]);
+
+               }
+
+           }
+
+   catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+try
+
+           {
+
+               int n = 3;
+
+           int i;
+
+           double dostavka = Convert.ToDouble(this.textBox1.Text);
+
+           int days = Convert.ToInt32(this.textBox2.Text);
+
+           int weeks = Convert.ToInt32(this.textBox3.Text);
+
+           double izdergki_delivery;
+
+           double[] consumption = new double[n];
+
+           double[] izdergki = new double[n];
+
+           double[] price = new double[n];
+
+           double[] qty = new double[n];
+
+           double[] price_save = new double[n];
+
+               double[] price_delivery = new double[n];
+
+               for (i = 0; i < n; i++)
+
+           {
+
+               consumption[i] = Convert.ToDouble(dataGridView1[i, 0].Value);
+
+               izdergki[i] = Convert.ToDouble(dataGridView2[i, 0].Value);
+
+               price[i] = Convert.ToDouble(dataGridView3[i, 0].Value);
+
+           }
+
+           double sum = 0;
+
+           for (i = 0; i < n; i++)
+
+           {
+
+               sum += consumption[i] * izdergki[i];
+
+           }
+
+           double time_weeks = Math.Sqrt(2 * dostavka / sum);
+
+           label10.Text = Convert.ToString(Math.Round(time_weeks, 1));
+
+           label14.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(time_weeks * days)));
+
+           for (i = 0; i < n; i++)
+
+           {
+
+               qty[i] = consumption[i] * time_weeks;
+
+           }
+
+           label9.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(qty[0])));
+
+           label16.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(qty[1])));
+
+           label18.Text = Convert.ToString(Convert.ToInt16(Math.Ceiling(qty[2])));
+
+ 
+
+           for (i = 0; i < n; i++)
+
+           {
+
+               price_save[i] = qty[i] * izdergki[i] / 2 * weeks;
+
+           }
+
+           label24.Text = Convert.ToString(Math.Round(price_save[0], 2));
+
+           label22.Text = Convert.ToString(Math.Round(price_save[1], 2));
+
+           label20.Text = Convert.ToString(Math.Round(price_save[2], 2));
+
+           izdergki_delivery = dostavka / time_weeks * weeks;
+
+           label12.Text = Convert.ToString(Math.Round(izdergki_delivery, 2));
+
+ 
+
+               for (i = 0; i < n; i++)
+
+               {
+
+                   price_delivery[i] = price_save[i] / izdergki[i] * price[i] * weeks;
+
+               }
+
+               label32.Text = Convert.ToString(Math.Round(price_delivery[0], 2));
+
+               label30.Text = Convert.ToString(Math.Round(price_delivery[1], 2));
+
+               label28.Text = Convert.ToString(Math.Round(price_delivery[2], 2));
+
+               int n1 = 10000000;
+
+           double[] sum1 = new double[3];
+
+           double[,] items = new double[n1, 3];
+
+           int k = 0;
+
+           int j = 0;
+
+           for (i = 0; i < n1; i++)
+
+           {
+
+               items[i, 0] = alglib.poissondistribution(i, consumption[0]) - sum1[0];
+
+               items[i, 1] = alglib.poissondistribution(i, consumption[1]) - sum1[1];
+
+               items[i, 2] = alglib.poissondistribution(i, consumption[2]) - sum1[2];
+
+               if (items[i, 0] <= 0.0001 && items[i, 1] <= 0.0001 && items[i, 2] <= 0.0001 && i > consumption[0] && i > consumption[1] && i > consumption[2])
+
+               {
+
+                   j = i; 
+
+                   break;
+
+               }
+
+               if (items[i, 0] <= 0.0001 && items[i, 1] <= 0.0001 && items[i, 2] <= 0.0001 && i < consumption[0] && i < consumption[1] && i < consumption[2])
+
+               {
+
+                   k = i;
+
+               }
+
+               for (int i1 = 0; i1 < 3; i1++)
+
+               {
+
+                   sum1[i1] += items[i, i1];
+
+               }
+
+           }
+
+           chart2.Series["Item 1"].Points.Clear();
+
+           chart2.Series["Item 2"].Points.Clear();
+
+           chart2.Series["Item 3"].Points.Clear();
+
+           for (i = k; i < j; i++)
+
+           {
+
+               this.chart2.Series["Item 1"].Points.AddXY(i, items[i, 0]);
+
+               this.chart2.Series["Item 2"].Points.AddXY(i, items[i, 1]);
+
+               this.chart2.Series["Item 3"].Points.AddXY(i, items[i, 2]);
+
+           }
+
+           }
+
+String line="";
+
+for (i = 0; i < n1; i++)
+
+            {
+
+                   line += items[i];
+
+  }
+
+ 
+
+   catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+private void button12_Click(object sender, EventArgs e)
+
+       {
+
+try
+
+{
+
+   StreamReader sr = new StreamReader("C:\\Sample.txt");
+
+   line = sr.ReadLine();
+
+   while (line != null)
+
+   {
+
+       Console.WriteLine(line);
+
+       line = sr.ReadLine();
+
+   }
+
+   sr.Close();
+
+   Console.ReadLine();
+
+}
+
+catch(Exception e)
+
+{
+
+   Console.WriteLine("Exception: " + e.Message);
+
+}
+
+finally
+
+{
+
+   Console.WriteLine("Executing finally block.");
+
+}
+
+  }
+
+}
+
+public void Graph1()
+
+   { 
+
+       private void button1_Click(object sender, EventArgs e)
+
+       {
+
+Try { 
+
+Chart1.Series["Item"].Points.Clear();
+
+for (i = k; i < j; i++)
+
+{
+
+for (f = k; f < j; f++)
+
+{
+
+this.chart1.Series["Item [f]"].Points.AddXY(i, items[i, 0]);
+
+this.chart1.Series["Item [f]"].Poin
+
+ts.AddXY(i, items[i, 1]);
+
+this.chart1.Series["Item [f]"].Points.AddXY(i, items[i, 2]);
+
+}
+
+} 
+
+catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+    } 
+
+}
+
+}
+
+public void Graph2()
+
+   { 
+
+       private void button2_Click(object sender, EventArgs e)
+
+       {
+
+Try { 
+
+Chart2.Series["Time"].Points.Clear();
+
+Chart2.Series["Time"].Points.Clear();
+
+Chart2.Series["Time"].Points.Clear();
+
+for (i = k; i < j; i++)
+
+{
+
+for (f = k; f < j; f++)
+
+{
+
+this.chart1.Series["Time"].Points.AddXY(i, items[i, 0]);
+
+this.chart1.Series["Time"].Points.AddXY(i, items[i, 1]);
+
+this.chart1.Series["Time"].Points.AddXY(i, items[i, 2]); 
+
+}
+
+} 
+
+catch { MessageBox.Show("Invalid data. Please check and try again."); }
+
+    }
